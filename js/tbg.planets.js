@@ -17,28 +17,61 @@ tbg.planets = (function() {
   // ----------------- BEGIN MODULE SCOPE VARIABLES -----------------
   var
     configMap = {
-      G        : 6.67e-11,
+      G        : 1,
       stepTime : 1.0 / 60.0
     },
 
     stateMap = {
       planet1 : {
         pos  : new THREE.Vector2( 0, 0 ),
-        vel  : new THREE.Vector2( 0, 0 ),
-        mass : 1
+        vel  : new THREE.Vector2( 0, 45 ),
+        mass : 4e+5
       },
       planet2 : {
         pos  : new THREE.Vector2( 50, 0 ),
-        vel  : new THREE.Vector2( 0, 0 ),
-        mass : 1
+        vel  : new THREE.Vector2( 0, -45 ),
+        mass : 4e+5
       }
     },
+
+    calcGravityForce,
 
     initModule, getPlanetPositions, simulationStep;
   // ------------------ END MODULE SCOPE VARIABLES ------------------
 
 
   // -------------------- BEGIN UTILITY METHODS ---------------------
+  // Begin Utility method /calcGravityForce/
+  // Purpose :
+  //   Calculate the force due to gravity between the two planets.
+  // Returns :
+  //   Vector2 which represents the force due to gravity on planet1
+  //   by planet2.
+  //
+  calcGravityForce = function() {
+    var
+      r = new THREE.Vector2(),
+      sqrDist = 0,
+      force = new THREE.Vector2();
+
+    r.subVectors( stateMap.planet2.pos, stateMap.planet1.pos );
+
+    sqrDist = r.lengthSq();
+
+    // avoid divide by zero
+    if ( sqrDist <= 0.5 ) {
+      return new THREE.Vector2( 0, 0 );
+    }
+
+    r.normalize();
+
+    force.copy( r );
+    force.multiplyScalar( configMap.G * (stateMap.planet1.mass * stateMap.planet2.mass) / sqrDist );
+
+    console.log( force );
+    return force;
+  };
+  // End Utility method /calcGravityForce/
   // --------------------- END UTILITY METHODS ----------------------
 
 
@@ -66,13 +99,17 @@ tbg.planets = (function() {
   //
   simulationStep = function() {
     var
-      p1Accel = new THREE.Vector2( -20, 0 ),
-      p2Accel = new THREE.Vector2( 20, 0 ),
+      force   = calcGravityForce(),
+      p1Accel = new THREE.Vector2(),
+      p2Accel = new THREE.Vector2(),
       p1Vel   = new THREE.Vector2(),
       p2Vel   = new THREE.Vector2();
 
-    p1Accel.multiplyScalar( configMap.stepTime );
-    p2Accel.multiplyScalar( configMap.stepTime );
+    p1Accel.copy( force );
+    p2Accel.copy( force );
+    p2Accel.multiplyScalar( -1 );
+    p1Accel.multiplyScalar( (1 / stateMap.planet1.mass) * configMap.stepTime );
+    p2Accel.multiplyScalar( (1 / stateMap.planet2.mass) * configMap.stepTime );
 
     stateMap.planet1.vel.add( p1Accel );
     stateMap.planet2.vel.add( p2Accel );

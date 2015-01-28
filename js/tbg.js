@@ -17,7 +17,7 @@ var tbg = (function() {
   var
     configMap = {
       planetMaterial : null,
-      worldSize      : 200
+      worldSize      : 150
     },
 
     stateMap = {
