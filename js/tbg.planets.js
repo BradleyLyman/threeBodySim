@@ -40,7 +40,7 @@ tbg.planets = (function() {
 
     calcGravityForce, calcParticleAccel,
 
-    initModule, getPlanetPositions, simulationStep, getParticlePosition;
+    initModule, getPlanetPositions, simulationStep, getParticlePosition, resetParticle;
   // ------------------ END MODULE SCOPE VARIABLES ------------------
 
 
@@ -200,12 +200,26 @@ tbg.planets = (function() {
     return new THREE.Vector3( stateMap.particle.pos.x, stateMap.particle.pos.y, 0 );
   };
   // End Public method /getParticlePosition/
+
+  // Begin Public method /resetParticle/
+  // Purpose   :
+  //   Reset the particle's position to and velocity.
+  // Arguments :
+  //   pos - The particle's new starting position.
+  // Returns   : none
+  //
+  resetParticle = function( pos ) {
+    stateMap.particle.vel = new THREE.Vector2( 0, 0 );
+    stateMap.particle.pos.copy( pos );
+  };
+  // End Public method /resetParticle/
   // --------------------- END PUBLIC METHODS -----------------------
 
   return {
     initModule          : initModule,
     getPlanetPositions  : getPlanetPositions,
     simulationStep      : simulationStep,
-    getParticlePosition : getParticlePosition
+    getParticlePosition : getParticlePosition,
+    resetParticle       : resetParticle
   };
 }());

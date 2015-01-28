@@ -19,6 +19,7 @@ var tbg = (function() {
       planetMaterial      : null,
       particleMaterial    : null,
       worldSize           : 150,
+      worldDims           : { width : 0, height : 0 },
       particleTrailLength : 1000
     },
 
@@ -31,10 +32,10 @@ var tbg = (function() {
       particleGeometry   : null,
     },
 
-    initParticleGeometry,
+    initParticleGeometry, resetParticleGeometry,
     addPointToParticleTrail,
 
-    render,
+    onMouseUp, onWindowResize, render,
 
     initModule;
   // ------------------ END MODULE SCOPE VARIABLES ------------------
@@ -63,6 +64,22 @@ var tbg = (function() {
     }
   };
   // End Utility method /initParticleGeometry/
+
+  // Begin Utility method /resetParticleGeometry/
+  // Purpose :
+  //   Move all points in the particle trail to the particle's
+  //   current position.
+  //
+  resetParticleGeometry = function() {
+    var
+      i,
+      particlePos = tbg.planets.getParticlePosition();
+
+    for ( i = 0; i < configMap.particleTrailLength; i++ ) {
+      stateMap.particleGeometry.vertices[i].copy( particlePos );
+    }
+  };
+  // End Utility method /resetParticleGeomewtry/
 
   // Begin Utility method /addPointToParticleTrail/
   // Purpose   :
@@ -95,6 +112,38 @@ var tbg = (function() {
 
 
   // -------------------- BEGIN EVENT HANDLERS ----------------------
+  // Begin Event handler /onWindowResize/
+  onWindowResize = function() {
+    var
+      aspect = window.innerHeight / window.innerWidth,
+      size   = configMap.worldSize * aspect;
+
+    stateMap.camera.top    = size;
+    stateMap.camera.bottom = -size;
+    stateMap.camera.updateProjectionMatrix();
+
+    configMap.worldDims.height = 2*size;
+
+    stateMap.renderer.setSize( window.innerWidth, window.innerHeight );
+  };
+  // End Event handler /onWindowResize/
+
+  // Begin Event handler /onMouseUp/
+  // Purpose :
+  //   Reset the particle to the mouse's location.
+  //
+  onMouseUp = function( event ) {
+    var
+      mX, mY;
+    console.log( event.pageX, event.pageY );
+    mX = ( event.pageX - window.innerWidth/2 ) * configMap.worldDims.width / window.innerWidth;
+    mY = ( window.innerHeight/2 - event.pageY ) * configMap.worldDims.height / window.innerHeight;
+
+    tbg.planets.resetParticle( new THREE.Vector2( mX, mY ) );
+    resetParticleGeometry();
+  };
+  // End Event handler /onMouseUp/
+
   // Begin Event handler /render/
   //
   render = function() {
@@ -131,16 +180,20 @@ var tbg = (function() {
     stateMap.camera            = new THREE.OrthographicCamera(
       -configMap.worldSize, configMap.worldSize, size, -size, 1, -1
     );
+    configMap.worldDims.width  = configMap.worldSize * 2;
+    configMap.worldDims.height = size * 2;
 
     stateMap.camera.position.z = 1;
     stateMap.renderer.setSize( window.innerWidth, window.innerHeight );
     $('body').append( stateMap.renderer.domElement );
+    $('canvas').mouseup( onMouseUp );
+    $(window).resize( onWindowResize );
 
     stateMap.planet1Mesh = new THREE.Mesh(
-      new THREE.CircleGeometry( 5, 10 ), configMap.planetMaterial
+      new THREE.CircleGeometry( 4, 12 ), configMap.planetMaterial
     );
     stateMap.planet2Mesh = new THREE.Mesh(
-      new THREE.CircleGeometry( 5, 10 ), configMap.planetMaterial
+      new THREE.CircleGeometry( 4, 12 ), configMap.planetMaterial
     );
     initParticleGeometry();
 
