@@ -1,0 +1,29 @@
+{
+  "name": "threeBodySim",
+  "version": "1.0.0",
+  "description": "Simple three body gravitation simulator.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BradLyman/threeBodySim.git"
+  },
+  "keywords": [
+    "WebGL",
+    "JavaScript",
+    "THREE.js",
+    "physics",
+    "simulation"
+  ],
+  "author": "Brad Lyman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BradLyman/threeBodySim/issues"
+  },
+  "homepage": "https://github.com/BradLyman/threeBodySim",
+  "dependencies": {
+    "express": "^4.11.1"
+  }
+}
