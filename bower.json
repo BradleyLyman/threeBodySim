@@ -1,0 +1,24 @@
+{
+  "name": "threeBodySim",
+  "version": "0.0.0",
+  "homepage": "https://github.com/BradLyman/threeBodySim",
+  "authors": [
+    "brad <lyman.brad3211@gmail.com>"
+  ],
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "~5.5.0"
+  }
+}
