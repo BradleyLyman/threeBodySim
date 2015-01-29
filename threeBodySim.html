@@ -91,71 +91,27 @@
       </div>
 
       <div class="row">
-        <h2 class="subheader">Nerd Stuff</h2>
+        <h2 class="subheader">Details</h2>
         <p>
-          If you are like me, you probably want to know what is happening here. If you're not like me,
-          then you might just want to click the "back to the simulation" button as this will likely
-          be outrageouly boring.
-        </p>
-        <p>
-          We will start simple, this web-app is implemented with JavaScript and an awesome
-          WebGL/creative-coding library
-          called <a href="http://threejs.org/">Three.js</a>. Not much more to say about that, the code is
-          easy enough to read and is available on
-          <a href="https://github.com/BradLyman/threeBodySim">my github page</a>.
+          This web-app is implemented with JavaScript and an awesome WebGL/creative-coding library
+          called <a href="http://threejs.org/">Three.js</a>.
+          The code is available on
+          <a href="https://github.com/BradLyman/threeBodySim">my github page</a>
+          and seems to be relatively easy to read.
         </p>
 
         <p>
-          There are two things to focus on when we examine the simulation.
-          First, we want to understand what we are simulating (e.g. the physics).
-          And second we want to understand how we go about solving the equations that the physics provides us with.
-        </p>
-
-        <h3 class="subheader">The Physics</h3>
-        <p>
-          A three body gravitation system is just any system where there are 3 objects which are acting on
-          each other gravitationally. Three body systems are interesting because they seem like they should be
-          simple, but in reality they form a complex set of dynamical systems.
-          Because of this complexity we choose to use a three body system where one of the bodies is so small
-          that its influence on the overall system is insignificant. Choosing to model the system this way is
-          usefull because we are left with what is essentially a two body system
-          (<a href="http://en.wikipedia.org/wiki/Gravitational_two-body_problem">which is well understood</a>).
-          From here forwards we will refer to our two large bodies as "planets" and the third insignificant
-          body as a "particle".
-        </p>
-
-        <p>
-          Two body gravitational systems have analytic solutions, so we can model the two planets without
-          worrying about numeric differential equation solvers. However, the particle is a different story...
-        </p>
-
-        <p>
-          When we build the equations describing the force on the particle we are left with a differential
-          equation which has no analytic solution (TODO: actually show the math, and maybe a picture).
-          This is where the business with diff. eqn. solvers comes in.
-        </p>
-
-        <h3 class="subheader">The Numerics</h3>
-        <p>
-          This is actually a really cool discussion to have, especially when we investigate the pros and cons of
-          different differential equation solvers. But it's late and that discussion is likely out of the scope
-          of my tired rambling. So instead I'll just say we solve for the particle's position with
-          <a href="http://en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations">magic</a>.
+          A true three body system is fairly hard to watch while understanding what is going on.
+          So to get a more interesting/fun result this simulation uses two very large bodies
+          (which we will call "planets") and one
+          insignificantly small body (which we will call the "particle"). The two planets
+          will orbit each other without feeling the effects of the particle.
+          But the particle will have all sorts of interesting orbit paths depending on where it starts.
+          On the black screen the blue circles represent the planets and the white line shows the path
+          that the particle follows while orbiting them.
         </p>
       </div>
     </div>
   </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
