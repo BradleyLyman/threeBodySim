@@ -3,25 +3,159 @@
 <head>
   <title>ProjectTetra - Three Body Grav. Sim.</title>
 
-  <!-- Third Party ECMAScript Libraries -->
+  <!-- Third Party CSS -->
+  <link rel="stylesheet" href="/css/foundation.css" />
+
+  <!-- Third Party JavaScript Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.js" ></script>
   <script src="https://code.jquery.com/jquery-2.1.3.js"                      ></script>
+  <script src="js/vendor/modernizr.js"                                       ></script>
+  <script src="js/foundation.min.js"                                         ></script>
 
-  <!-- My ECMAScript -->
+  <!-- My JavaScript -->
   <script src="js/tbg.js"         ></script>
   <script src="js/tbg.planets.js" ></script>
 
+  <!-- My CSS, inline because I'm lazy -->
   <style>
     * {
       padding : 0;
       margin  : 0;
+    }
+
+    .help {
+      position    : absolute;
+      top         : 10px;
+      left        : 10px;
+    }
+
+    .overlay {
+      position         : absolute;
+      top              : 0;
+      left             : 0;
+      width            : 100vw;
+      height           : 100vh;
+      z-index          : 1000;
+      background-color : rgba( 0, 0, 0, 0.5 );
+      visibility       : hidden;
+    }
+
+    .overlay > div {
+      position   : relative;
+      top        : 5vw;
+      left       : 5vw;
+      width      : 90vw;
+      height     : 90vh;
+      overflow-y : scroll;
     }
   </style>
 </head>
 
 <body>
   <script>
+  $(document).foundation();
+
   tbg.initModule();
+
+  function toggleOverlay() {
+    if ( $('.overlay').css('visibility') === 'hidden' ) {
+      $('.overlay').css( 'visibility', 'visible' );
+    } else {
+      $('.overlay').css( 'visibility', 'hidden' );
+    }
+  };
   </script>
+
+  <button class="help" onclick="toggleOverlay()">?</button>
+
+  <div class="overlay">
+    <div class="panel">
+      <div class="row">
+        <h1>Three Body Gravitation Simulation</h1>
+        <hr />
+      </div>
+
+      <div class="row">
+        <h2 class="subheader">Controls</h2>
+        <p>
+          The controlls are simple: Just click the mouse anywhere on the screen to
+          change where the particle starts at!
+        </p>
+        <p>
+          When you get tired of watching an orbit, or when the particle leaves the screen, just click again
+          to start a new orbit.
+        </p>
+
+        <button onclick="toggleOverlay()">Back to the simulation</button>
+        <hr />
+      </div>
+
+      <div class="row">
+        <h2 class="subheader">Nerd Stuff</h2>
+        <p>
+          If you are like me, you probably want to know what is happening here. If you're not like me,
+          then you might just want to click the "back to the simulation" button as this will likely
+          be outrageouly boring.
+        </p>
+        <p>
+          We will start simple, this web-app is implemented with JavaScript and an awesome
+          WebGL/creative-coding library
+          called <a href="http://threejs.org/">Three.js</a>. Not much more to say about that, the code is
+          easy enough to read and is available on
+          <a href="https://github.com/BradLyman/threeBodySim">my github page</a>.
+        </p>
+
+        <p>
+          There are two things to focus on when we examine the simulation.
+          First, we want to understand what we are simulating (e.g. the physics).
+          And second we want to understand how we go about solving the equations that the physics provides us with.
+        </p>
+
+        <h3 class="subheader">The Physics</h3>
+        <p>
+          A three body gravitation system is just any system where there are 3 objects which are acting on
+          each other gravitationally. Three body systems are interesting because they seem like they should be
+          simple, but in reality they form a complex set of dynamical systems.
+          Because of this complexity we choose to use a three body system where one of the bodies is so small
+          that its influence on the overall system is insignificant. Choosing to model the system this way is
+          usefull because we are left with what is essentially a two body system
+          (<a href="http://en.wikipedia.org/wiki/Gravitational_two-body_problem">which is well understood</a>).
+          From here forwards we will refer to our two large bodies as "planets" and the third insignificant
+          body as a "particle".
+        </p>
+
+        <p>
+          Two body gravitational systems have analytic solutions, so we can model the two planets without
+          worrying about numeric differential equation solvers. However, the particle is a different story...
+        </p>
+
+        <p>
+          When we build the equations describing the force on the particle we are left with a differential
+          equation which has no analytic solution (TODO: actually show the math, and maybe a picture).
+          This is where the business with diff. eqn. solvers comes in.
+        </p>
+
+        <h3 class="subheader">The Numerics</h3>
+        <p>
+          This is actually a really cool discussion to have, especially when we investigate the pros and cons of
+          different differential equation solvers. But it's late and that discussion is likely out of the scope
+          of my tired rambling. So instead I'll just say we solve for the particle's position with
+          <a href="http://en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations">magic</a>.
+        </p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,6 +10,8 @@ app.use( '/', function( req, res, next ) {
   next( null, req, res );
 });
 
+app.use( '/', express.static( path.join( __dirname, 'bower_components/foundation' ) ) );
+
 app.use( '/js', express.static( path.join( __dirname, 'js' ) ) );
 
 app.get( '/', function( req, res ) {
