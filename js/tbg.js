@@ -9,7 +9,7 @@
   regexp : true, sloppy : true,     vars : false,
   white  : true
 */
-/*global $, tbg, THREE */
+/*global $, THREE */
 
 // Modlue /tbg/
 var tbg = (function() {
@@ -173,9 +173,9 @@ var tbg = (function() {
 
     tbg.planets.initModule();
 
-    configMap.planetMaterial   = new THREE.MeshBasicMaterial({ color : 0x0000dd } );
-    configMap.particleMaterial = new THREE.LineBasicMaterial({ color : 0xffffff, linewidth : 1 });
-    stateMap.renderer          = new THREE.WebGLRenderer();
+    configMap.planetMaterial   = new THREE.MeshBasicMaterial({ color : 0x4444dd } );
+    configMap.particleMaterial = new THREE.LineBasicMaterial({ color : 0xffffff, linewidth : 2 });
+    stateMap.renderer          = new THREE.WebGLRenderer({ antialias : true });
     stateMap.scene             = new THREE.Scene();
     stateMap.camera            = new THREE.OrthographicCamera(
       -configMap.worldSize, configMap.worldSize, size, -size, 1, -1
